@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, Float, ForeignKey
 from sqlalchemy.orm import declarative_base
 from sqlalchemy_utils.types import ChoiceType
+from schemas import StatusPedido
+
 
 
 # conexão
@@ -33,17 +35,9 @@ class Usuario(Base):
 class Pedido(Base):
     __tablename__ = "pedido"
 
-    # ChoiceType requer uma "lista de tuplas" ou uma "tupla de tuplas"
-    # Usando o ChoiceType garante o uso estrito e correto das opções definidas
-    SATATUS_PEDIDOS = (
-        ("PENDENTE", "PENDENTE"),
-        ("CANCELADO", "CANCELADO"),
-        ("FINALIZADO", "FINALIZADO")
-    )
-
     id = Column("id", Integer, primary_key=True, autoincrement=True)
     id_usuario = Column("id_usuario", ForeignKey("usuario.id"))
-    status = Column("status", ChoiceType(SATATUS_PEDIDOS), nullable=False)
+    status = Column("status", ChoiceType(StatusPedido, impl=String()), nullable=False)
     preco = Column("preco", Float)
     #itens =
 
